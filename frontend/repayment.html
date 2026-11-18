@@ -1,0 +1,218 @@
+<html lang="en"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Loanie Pixel | Loan Repayment</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&amp;family=Quicksand:wght@500;600;700&amp;family=Silkscreen:wght@400;700&amp;display=swap" rel="stylesheet">
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/ethers/5.7.2/ethers.umd.min.js"></script>
+
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/borrower.css">
+  <link rel="stylesheet" href="css/repayment.css">
+</head>
+
+<body>
+<div class="app-container">
+
+  <aside class="sidebar">
+    <div>
+      <div class="brand-header">
+        <div class="brand-icon"><span style="font-size:1.35rem">🪙</span></div>
+        <div class="brand-title">LOANIE PIXEL ★<span>BORROWER WORLD</span></div>
+      </div>
+
+      <nav>
+        <ul class="nav-menu">
+          <li><a class="nav-link" href="borrower.html#dashboard">⌂ &nbsp; Dashboard</a></li>
+          <li><a class="nav-link" href="borrower.html#apply">▤ &nbsp; Apply for Loan</a></li>
+          <li><a class="nav-link" href="borrower.html#history">◷ &nbsp; My Applications</a></li>
+          <li><a class="nav-link active" href="repayment.html">♡ &nbsp; Loan Repayment</a></li>
+        </ul>
+      </nav>
+    </div>
+
+  </aside>
+
+  <main class="main-wrapper">
+    <header class="top-header">
+      <div class="header-left">
+        <div class="quest-badge">🌸 LOAN REPAYMENT QUEST</div>
+      </div>
+
+      <div class="header-right">
+        <div class="network-chip">
+          <span id="network-dot" class="network-dot"></span>
+          <span id="network-label">Sepolia Testnet</span>
+        </div>
+        <button id="connect-wallet" class="wallet-btn" type="button">
+          🔐 <span id="wallet-label">Connect MetaMask</span>
+        </button>
+      </div>
+    </header>
+
+    <div class="content-area repayment-content">
+
+      <section class="welcome-card repay-welcome">
+        <div class="welcome-info">
+          <span class="welcome-tag">ONE STEP CLOSER TO DEBT-FREE ✨</span>
+          <h1 class="welcome-title">Your repayment journey starts here!</h1>
+          <p class="welcome-desc">
+            Track your outstanding balance, make partial or full repayments,
+            and keep every transaction in one place.
+          </p>
+        </div>
+        <div class="repay-mascot" aria-hidden="true">🐷<span>♡</span></div>
+      </section>
+
+      <div id="notice" class="notice" role="status" aria-live="polite">
+        Connect MetaMask and load your approved loans to get started.
+      </div>
+
+      <section class="repay-stats">
+        <article class="stat-card total">
+          <div class="stat-label">SELECTED LOAN</div>
+          <div class="stat-number compact" id="stat-loan">—</div>
+          <span class="stat-badge">Loan ID</span>
+        </article>
+
+        <article class="stat-card approved">
+          <div class="stat-label">TOTAL PAYABLE</div>
+          <div class="stat-number compact" id="stat-total">—</div>
+          <span class="stat-badge">Principal + Interest</span>
+        </article>
+
+        <article class="stat-card pending">
+          <div class="stat-label">AMOUNT PAID</div>
+          <div class="stat-number compact" id="stat-paid">—</div>
+          <span class="stat-badge">Repayment so far</span>
+        </article>
+
+        <article class="stat-card rejected">
+          <div class="stat-label">OUTSTANDING</div>
+          <div class="stat-number compact" id="stat-outstanding">—</div>
+          <span class="stat-badge">Remaining balance</span>
+        </article>
+      </section>
+
+      <section class="repay-grid">
+
+        <article class="quest-card loan-panel">
+          <div class="quest-header">
+            <h2>🌷 My Active Loan</h2>
+            <p>Select an approved loan to view its repayment details.</p>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="loan-select">Choose Loan</label>
+            <select id="loan-select" class="form-input">
+              <option value="">Connect wallet to load loans</option>
+            </select>
+          </div>
+
+          <div class="loan-details" id="loan-details">
+            <div class="empty-state">Your approved loan details will appear here.</div>
+          </div>
+
+          <div class="progress-wrap">
+            <div class="progress-heading">
+              <span>Repayment progress</span>
+              <strong id="progress-label">0%</strong>
+            </div>
+            <div class="progress-track">
+              <div id="progress-fill" class="progress-fill"></div>
+            </div>
+          </div>
+        </article>
+
+        <article class="quest-card payment-panel">
+          <div class="quest-header">
+            <h2>💗 Make a Repayment</h2>
+            <p>Pay any whole-rupee amount up to your outstanding balance.</p>
+          </div>
+
+          <form id="repayment-form">
+            <div class="form-group">
+              <label class="form-label" for="repay-amount">Repayment Amount (INR)</label>
+              <div class="amount-input-wrap">
+                <input id="repay-amount" class="form-input" type="number" min="1" step="1" placeholder="Enter amount in INR" required="">
+                <span>INR</span>
+              </div>
+              <div class="form-subtext">
+                Maximum payable: <strong id="max-payable">—</strong>
+              </div>
+            </div>
+
+            <div class="quick-amounts">
+              <button type="button" class="quick-btn" data-part="25">25%</button>
+              <button type="button" class="quick-btn" data-part="50">50%</button>
+              <button type="button" class="quick-btn" data-part="75">75%</button>
+              <button type="button" class="quick-btn full" data-part="100">Pay Full</button>
+            </div>
+
+            <div class="payment-summary">
+              <div>
+                <span>Selected repayment</span>
+                <strong id="summary-amount">₹0</strong>
+              </div>
+              <div>
+                <span>Balance after payment</span>
+                <strong id="summary-balance">—</strong>
+              </div>
+            </div>
+
+            <button id="repay-button" class="btn-arcade mint repay-button" type="submit" disabled="">
+              ♡ Confirm Repayment
+            </button>
+
+            <p class="tiny-note">
+              Repayment is paid in real Sepolia ETH at ₹1,00,000 = 0.01 ETH, sent to the
+              bank's contract. MetaMask will ask you to confirm. Gas fees are extra.
+            </p>
+          </form>
+        </article>
+      </section>
+
+      <section class="history-section repayment-history">
+        <div class="history-toolbar">
+          <div>
+            <h2>♡ Repayment History</h2>
+            <p class="history-subtitle">A record of every successful repayment transaction.</p>
+          </div>
+          <span id="history-count" class="stat-badge">0 transactions</span>
+        </div>
+
+        <div class="table-responsive">
+          <table class="pixel-table">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Amount</th>
+                <th>Borrower</th>
+                <th>Date &amp; Time</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody id="history-body">
+              <tr>
+                <td colspan="5" class="empty-cell">No repayment records loaded.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <p class="currency-warning">
+        Loan amounts and repayments are recorded as INR values on the blockchain and
+        paid in Sepolia test ETH at a fixed demo rate of ₹1,00,000 = 0.01 ETH.
+        No real Indian Rupees or real-money ETH are involved.
+      </p>
+
+    </div>
+  </main>
+</div>
+<script src="js/common.js"></script>
+<script src="js/repayment.js"></script>
+</body></html>

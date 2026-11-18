@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Loan Management System</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/ethers/5.7.2/ethers.umd.min.js"></script>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/admin.css">
+</head>
+<body>
+  <nav class="topnav">
+    <span class="brand">LOANIE</span>
+    <a href="index.html" class="active">Home</a>
+    <a href="borrower.html">Apply</a>
+    <a href="borrower.html#history">My Loans</a>
+    <a href="repayment.html">Repay</a>
+    <a href="admin.html">Admin</a>
+    <span id="networkPill" class="pill">Not connected</span>
+    <button id="connectBtn" class="btn">Connect MetaMask</button>
+  </nav>
+
+  <main class="page">
+    <h1>Blockchain Loan Management</h1>
+    <div class="card">
+      <p>Apply for a loan, get an instant rule-based decision, receive real Sepolia ETH from the bank's smart contract
+         and repay it in instalments, all on the Ethereum Sepolia testnet.</p>
+      <p style="margin-top:10px">Fixed interest <b>10%</b> &middot; Minimum age <b>21</b> &middot;
+         Minimum income <b>&#8377;20,000</b> &middot; Maximum loan <b>10&times; monthly income</b> &middot;
+         Rate <b>&#8377;1,00,000 = 0.01 ETH</b></p>
+    </div>
+    <h2>Where to go</h2>
+    <div class="grid">
+      <a class="card" href="borrower.html">Apply for a loan</a>
+      <a class="card" href="borrower.html#history">Track my loans</a>
+      <a class="card" href="repayment.html">Repay a loan</a>
+      <a class="card" href="admin.html">Admin dashboard</a>
+    </div>
+  </main>
+
+  <script src="js/common.js"></script>
+  <script>setupTopNav();</script>
+</body>
+</html>
